@@ -10,8 +10,8 @@ CODEOWNERS = ["@rogal138"]
 DEPENDENCIES = ["sensor"]
 
 CONF_CLOSE_DELAY = 5000
-CONF_TRANSMIT_LED_PIN = "GPIOXX"
-CONF_RECEIVE_ADC_PIN = "GPIOXX"
+CONF_TRANSMIT_LED_PIN = "transmit_led_pin"
+CONF_RECEIVE_ADC_PIN = "receive_led_pin"
 
 
 cat_feeder_ns = cg.esphome_ns.namespace("cat_feeder")
