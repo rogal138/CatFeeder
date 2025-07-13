@@ -21,7 +21,7 @@ void CatFeeder::loop() {
 void CatFeeder::dump_config(){
     ESP_LOGCONFIG(TAG, "Empty GPIO component");
     LOG_PIN("  Pin: ", this->transmit_led_pin);
-    LOG_PIN("  Pin: ", this->receive_adc_pin);
+    LOG_PIN("  Pin: ", this->receive_led_pin);
 }
 
 }  // namespace example_component
