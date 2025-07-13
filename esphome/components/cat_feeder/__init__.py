@@ -19,7 +19,7 @@ CatFeeder = cat_feeder_ns.class_("CatFeeder", cg.Component)
 
 CONFIG_SCHEMA = cv.Schema(
     {
-        cv.GenerateID(): cv.declare_id(),
+        cv.GenerateID(): cv.declare_id(CatFeeder),
         cv.Required(CONF_TRANSMIT_LED_PIN): pins.gpio_output_pin_schema,
         cv.Optional(CONF_RECEIVE_ADC_PIN): pins.gpio_output_pin_schema,
     }
