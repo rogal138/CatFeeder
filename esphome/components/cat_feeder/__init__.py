@@ -28,9 +28,9 @@ CONFIG_SCHEMA = cv.Schema(
 async def to_code(config):
     pin = await gpio_pin_expression(config[CONF_TRANSMIT_LED_PIN])
 
-    var = cg.new_Pvariable(config[CONF_ID], pin)
+    var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
-    
+
     cg.add(var.set_transmit_led_pin(pin))
     if receive_adc_pin := config.get(CONF_RECEIVE_ADC_PIN):
         pin = await gpio_pin_expression(config[CONF_RECEIVE_ADC_PIN])
