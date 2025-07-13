@@ -9,14 +9,20 @@ static const char *TAG = "cat_feeder.component";
 
 void CatFeeder::setup() {
   ESP_LOGCONFIG(TAG, "Setting up Cat Feder component...");
-  //this->receive_led_pin->setup();
+  if (this->receive_led_pin != nullptr) {
+    this->receive_led_pin->setup();              // safe only if not null
+    this->receive_led_pin->digital_write(false); // initial state
+    ESP_LOGI("cat_feeder", "Receive LED initialized");
+  } else {
+    ESP_LOGW("cat_feeder", "Receive LED pin configured");
+  }
   this->transmit_led_pin->setup();
   this->transmit_led_pin->digital_write(true);
 }
 
 void CatFeeder::loop() {
   const uint32_t now = millis();
-  if (now - this->last_toggle_time > 1000) {  // Toggle every 1 second
+  if (now - this->last_toggle_time > 100) {  // Toggle every 1 second
     this->led_state = !this->led_state;
     this->transmit_led_pin->digital_write(this->led_state);
     this->last_toggle_time = now;
