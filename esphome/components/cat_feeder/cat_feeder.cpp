@@ -20,7 +20,7 @@ void CatFeeder::loop() {
     this->led_state = !this->led_state;
     this->transmit_led_pin->digital_write(this->led_state);
     this->last_toggle_time = now;
-    ESP_LOGD("cat_feeder", "Toggling LED: %s", this->led_state_ ? "ON" : "OFF");
+    ESP_LOGD("cat_feeder", "Toggling LED: %s", this->led_state ? "ON" : "OFF");
   }
 }
 
