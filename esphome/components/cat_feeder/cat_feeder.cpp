@@ -8,7 +8,7 @@ static const char *TAG = "cat_feeder.component";
 
 void CatFeeder::setup() {
   ESP_LOGCONFIG(TAG, "Setting up Cat Feder component...");
-  this->receive_adc_pin->setup();
+  this->receive_led_pin->setup();
   this->transmit_led_pin->setup();
   this->transmit_led_pin>digital_write(true); 
 }
