@@ -2,6 +2,7 @@
 
 #include "esphome/core/component.h"
 #include "esphome/core/hal.h"
+#include "esphome/core/gpio.h"
 
 namespace esphome {
 namespace cat_feeder {
