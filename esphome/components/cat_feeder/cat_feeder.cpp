@@ -1,4 +1,5 @@
 #include "esphome/core/log.h"
+#include "esphome/core/gpio.h"
 #include "cat_feeder.h"
 
 namespace esphome {
