@@ -22,7 +22,7 @@ void CatFeeder::setup() {
 
 void CatFeeder::loop() {
   const uint32_t now = millis();
-  if (now - this->last_toggle_time > 100) {  // Toggle every 1 second
+  if (now - this->last_toggle_time > 5) {  // Toggle every 1 second
     this->led_state = !this->led_state;
     this->transmit_led_pin->digital_write(this->led_state);
     this->last_toggle_time = now;
