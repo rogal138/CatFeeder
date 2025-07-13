@@ -11,6 +11,7 @@ void CatFeeder::setup() {
   ESP_LOGCONFIG(TAG, "Setting up Cat Feder component...");
   this->receive_led_pin->setup();
   this->transmit_led_pin->setup();
+  this->transmit_led_pin->digital_write(true);
 }
 
 void CatFeeder::loop() {
@@ -19,6 +20,7 @@ void CatFeeder::loop() {
     this->led_state = !this->led_state;
     this->transmit_led_pin->digital_write(this->led_state);
     this->last_toggle_time = now;
+    ESP_LOGD("cat_feeder", "Toggling LED: %s", this->led_state_ ? "ON" : "OFF");
   }
 }
 
