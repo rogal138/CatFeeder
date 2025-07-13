@@ -11,12 +11,15 @@ void CatFeeder::setup() {
   ESP_LOGCONFIG(TAG, "Setting up Cat Feder component...");
   this->receive_led_pin->setup();
   this->transmit_led_pin->setup();
-  this->transmit_led_pin>digital_write(true); 
 }
 
 void CatFeeder::loop() {
-  // Tasks here will be performed at every call of the main application loop.
-  // Note: code here MUST NOT BLOCK (see below)
+  const uint32_t now = millis();
+  if (now - this->last_toggle_time > 1000) {  // Toggle every 1 second
+    this->led_state = !this->led_state_;
+    this->transmit_led_pin->digital_write(this->led_state);
+    this->last_toggle_time = now;
+  }
 }
 
 void CatFeeder::dump_config(){

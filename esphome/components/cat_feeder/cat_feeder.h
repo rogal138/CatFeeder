@@ -18,6 +18,8 @@ public:
 protected:
   GPIOPin *transmit_led_pin;
   GPIOPin *receive_led_pin;
+  bool led_state{false};
+  uint32_t last_toggle_time{0};
 };
 
 }  // namespace example_component
