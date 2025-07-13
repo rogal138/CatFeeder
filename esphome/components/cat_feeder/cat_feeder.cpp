@@ -7,11 +7,6 @@ namespace cat_feeder {
 
 static const char *TAG = "cat_feeder.component";
 
-void CatFeeder::CatFeeder(GPIOPin *pin)
-{
-    set_transmit_led_pin(pin);
-}
-
 void CatFeeder::setup() {
   ESP_LOGCONFIG(TAG, "Setting up Cat Feder component...");
   this->receive_led_pin->setup();

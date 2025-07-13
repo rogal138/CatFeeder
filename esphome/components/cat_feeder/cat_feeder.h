@@ -9,7 +9,6 @@ namespace cat_feeder {
 
 class CatFeeder : public Component {
 public:
-  void CatFeeder(GPIOPin *pin)
   void setup() override;
   void loop() override;
   void dump_config() override;
