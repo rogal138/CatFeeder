@@ -36,7 +36,7 @@ void CatFeeder::setup() {
   this->transmit_led_pin->digital_write(false);
   if(this->status_led_pin){
     this->status_led_pin->setup();
-    this->status_led_pin->digital_write(false);
+    this->status_led_pin->digital_write(true);
   }
 }
 
