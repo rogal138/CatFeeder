@@ -11,7 +11,6 @@ from esphome.components.esp32.const import (
     VARIANT_ESP32S2,
     VARIANT_ESP32S3,
 )
-from esphome.config_helpers import filter_source_files_from_platform
 import esphome.config_validation as cv
 from esphome.cpp_helpers import gpio_pin_expression
 from esphome.const import (
