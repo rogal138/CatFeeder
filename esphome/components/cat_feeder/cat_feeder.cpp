@@ -34,6 +34,10 @@ void CatFeeder::setup() {
   this->receive_adc_pin->setup();
   this->transmit_led_pin->setup();
   this->transmit_led_pin->digital_write(false);
+  if(this->status_led_pin){
+    this->status_led_pin->setup();
+    this->status_led_pin->digital_write(false);
+  }
 }
 
 void CatFeeder::loop() {
@@ -62,7 +66,7 @@ void CatFeeder::loop() {
 
     adc_ratio = static_cast<double>(light_adc_value) / static_cast<double>(dark_adc_value);
 
-    if (status_led_pin) {
+    if (this->status_led_pin) {
         if (adc_ratio > trigger_ratio){
           this->status_led_pin->digital_write(true);
         }else{
