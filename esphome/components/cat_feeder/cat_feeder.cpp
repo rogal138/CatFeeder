@@ -31,25 +31,6 @@ void CatFeeder::setup() {
     adc2_config_channel_atten(this->channel2_, this->attenuation_);
   }
 
-  /*for (int32_t i = 0; i <= ADC_ATTEN_DB_12_COMPAT; i++) {
-    auto adc_unit = this->channel1_ != ADC1_CHANNEL_MAX ? ADC_UNIT_1 : ADC_UNIT_2;
-    auto cal_value = esp_adc_cal_characterize(adc_unit, (adc_atten_t) i, ADC_WIDTH_MAX_SOC_BITS,
-                                              1100,  // default vref
-                                              &this->cal_characteristics_[i]);
-    switch (cal_value) {
-      case ESP_ADC_CAL_VAL_EFUSE_VREF:
-        ESP_LOGV(TAG, "Using eFuse Vref for calibration");
-        break;
-      case ESP_ADC_CAL_VAL_EFUSE_TP:
-        ESP_LOGV(TAG, "Using two-point eFuse Vref for calibration");
-        break;
-      case ESP_ADC_CAL_VAL_DEFAULT_VREF:
-      default:
-        break;
-    }
-  
-  }*/
-
   this->receive_adc_pin->setup();
   this->transmit_led_pin->setup();
   this->transmit_led_pin->digital_write(false);
@@ -59,15 +40,7 @@ void CatFeeder::loop() {
   const uint32_t now = millis();
   int raw = -1;
   if (now - this->last_scan_time > 100) {  // Toggle every 100 milisecond
-    
-    if (this->channel1_ != ADC1_CHANNEL_MAX) {
-      raw = adc1_get_raw(this->channel1_);
-    } else if (this->channel2_ != ADC2_CHANNEL_MAX) {
-      adc2_get_raw(this->channel2_, ADC_WIDTH_MAX_SOC_BITS, &raw);
-    }
 
-    dark_adc_value = raw;
-    this->transmit_led_pin->digital_write(true);
 
     if (this->channel1_ != ADC1_CHANNEL_MAX) {
       raw = adc1_get_raw(this->channel1_);
@@ -75,8 +48,15 @@ void CatFeeder::loop() {
       adc2_get_raw(this->channel2_, ADC_WIDTH_MAX_SOC_BITS, &raw);
     }
 
-    this->transmit_led_pin->digital_write(false);
-    light_adc_value = raw;
+    if (last_pin_state == 0){
+        dark_adc_value = raw;
+        this->transmit_led_pin->digital_write(true);
+        last_pin_state = 1;
+    }else{
+        light_adc_value = raw;
+        this->transmit_led_pin->digital_write(false);
+        last_pin_state = 0;        
+    }
 
     adc_ratio = light_adc_value / dark_adc_value;
     this->last_scan_time = now;

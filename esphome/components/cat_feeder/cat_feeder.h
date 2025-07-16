@@ -55,6 +55,8 @@ protected:
   uint32_t light_adc_value{0};
   float adc_ratio{0};
 
+  bool last_pin_state{0};
+
   adc_atten_t attenuation_{ADC_ATTEN_DB_0};
   adc1_channel_t channel1_{ADC1_CHANNEL_MAX};
   adc2_channel_t channel2_{ADC2_CHANNEL_MAX};
