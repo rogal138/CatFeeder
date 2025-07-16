@@ -49,18 +49,18 @@ void CatFeeder::loop() {
 
     dark_adc_value = raw;
     this->transmit_led_pin->digital_write(true);
-    delayMicroseconds(50);
+    delayMicroseconds(150);
 
     if (this->channel1_ != ADC1_CHANNEL_MAX) {
       raw = adc1_get_raw(this->channel1_);
     } else if (this->channel2_ != ADC2_CHANNEL_MAX) {
       adc2_get_raw(this->channel2_, ADC_WIDTH_MAX_SOC_BITS, &raw);
     }
-    
+
     this->transmit_led_pin->digital_write(false);
     light_adc_value = raw;
 
-    adc_ratio = light_adc_value / dark_adc_value;
+    adc_ratio = static_cast<double>(light_adc_value) / static_cast<double>(dark_adc_value);
 
     if (status_led_pin) {
         if (adc_ratio > trigger_ratio){
@@ -73,7 +73,7 @@ void CatFeeder::loop() {
     this->last_scan_time = now;
     ESP_LOGD("cat_feeder", "Raw ADC on pin %d", this->receive_adc_pin);
     ESP_LOGD("cat_feeder", "Dark value %d, light value %d", dark_adc_value, light_adc_value);
-    ESP_LOGD("cat_feeder", "ADC Ratio: %d",adc_ratio);
+    ESP_LOGD("cat_feeder", "ADC Ratio: %f.2", static_cast<double>(adc_ratio));
   }
 }
 
