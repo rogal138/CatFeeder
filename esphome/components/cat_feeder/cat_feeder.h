@@ -36,7 +36,7 @@ public:
 
   void set_transmit_led_pin(GPIOPin *pin) { this->transmit_led_pin = pin;}
   void set_receive_adc_pin(GPIOPin *pin) { this->receive_adc_pin = pin;}
-  void set_status_led_pin(GPIOPin *pin) { this->receive_adc_pin = pin;}
+  void set_status_led_pin(GPIOPin *pin) { this->status_led_pin = pin;}
   void set_trigger_ratio(int ratio) { this->trigger_ratio = ratio;}
   void set_attenuation(adc_atten_t attenuation) { this->attenuation_ = attenuation; }
   void set_channel1(adc1_channel_t channel) {
