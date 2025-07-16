@@ -58,8 +58,8 @@ protected:
   adc_atten_t attenuation_{ADC_ATTEN_DB_0};
   adc1_channel_t channel1_{ADC1_CHANNEL_MAX};
   adc2_channel_t channel2_{ADC2_CHANNEL_MAX};
-  bool autorange_{false};
-  esp_adc_cal_characteristics_t cal_characteristics_[SOC_ADC_ATTEN_NUM] = {};
+  //bool autorange_{false};
+  //esp_adc_cal_characteristics_t cal_characteristics_[SOC_ADC_ATTEN_NUM] = {};
 };
 
 }  // namespace example_component
