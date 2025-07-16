@@ -15,6 +15,8 @@ static const int32_t SOC_ADC_RTC_MAX_BITWIDTH = 12;
 #endif  // USE_ESP32_VARIANT_ESP32S2
 #endif  // SOC_ADC_RTC_MAX_BITWIDTH
 
+static const adc_bits_width_t ADC_WIDTH_MAX_SOC_BITS = static_cast<adc_bits_width_t>(ADC_WIDTH_MAX - 1);
+
 static const int ADC_MAX = (1 << SOC_ADC_RTC_MAX_BITWIDTH) - 1;
 static const int ADC_HALF = (1 << SOC_ADC_RTC_MAX_BITWIDTH) >> 1;
 
@@ -88,7 +90,7 @@ void CatFeeder::dump_config(){
   static const char *const ATTEN_2_5DB_STR = "2.5 db";
   static const char *const ATTEN_6DB_STR = "6 db";
   static const char *const ATTEN_12DB_STR = "12 db";
-  const char *atten_str = ATTEN_AUTO_STR;
+  const char *atten_str = ATTEN_0DB_STR;
 
   ESP_LOGCONFIG(TAG, "Empty GPIO component");
   LOG_PIN("  Pin: ", this->transmit_led_pin);
