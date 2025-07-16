@@ -48,7 +48,6 @@ void CatFeeder::loop() {
     }
 
     dark_adc_value = raw;
-
     this->transmit_led_pin->digital_write(true);
     delayMicroseconds(50);
 
@@ -57,7 +56,8 @@ void CatFeeder::loop() {
     } else if (this->channel2_ != ADC2_CHANNEL_MAX) {
       adc2_get_raw(this->channel2_, ADC_WIDTH_MAX_SOC_BITS, &raw);
     }
-
+    
+    this->transmit_led_pin->digital_write(false);
     light_adc_value = raw;
 
     adc_ratio = light_adc_value / dark_adc_value;
