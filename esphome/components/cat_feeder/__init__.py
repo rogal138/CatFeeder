@@ -26,6 +26,8 @@ DEPENDENCIES = ["sensor"]
 CONF_CLOSE_DELAY = 5000
 CONF_TRANSMIT_LED_PIN = "transmit_led_pin"
 CONF_RECEIVE_ADC_PIN = "receive_adc_pin"
+CONF_STATUS_LED_PIN = "status_led_pin"
+CONF_TRIGGER_RATIO = "trigger_ratio"
 
 cat_feeder_ns = cg.esphome_ns.namespace("cat_feeder")
 CatFeeder = cat_feeder_ns.class_("CatFeeder", cg.Component)
@@ -198,6 +200,8 @@ CONFIG_SCHEMA = cv.Schema(
         cv.GenerateID(): cv.declare_id(CatFeeder),
         cv.Required(CONF_TRANSMIT_LED_PIN): pins.gpio_output_pin_schema,
         cv.Required(CONF_RECEIVE_ADC_PIN): validate_adc_pin,
+        cv.Optional(CONF_TRIGGER_RATIO, default=2): cv.int_range(min=1, max=255),
+        cv.Optional(CONF_STATUS_LED_PIN): pins.gpio_output_pin_schema,
         cv.SplitDefault(CONF_ATTENUATION, esp32="0db"): cv.All(
             cv.only_on_esp32, _attenuation
         ),
@@ -213,6 +217,12 @@ async def to_code(config):
 
     pin = await gpio_pin_expression(config[CONF_RECEIVE_ADC_PIN])
     cg.add(var.set_receive_adc_pin(pin))
+
+    cg.add(var.set_trigger_ratio(config[CONF_TRIGGER_RATIO]))
+
+    if pin := config.get(CONF_STATUS_LED_PIN):
+        pin = await gpio_pin_expression(config[CONF_STATUS_LED_PIN])
+        cg.add(var.set_status_led_pin(pin))
 
     if attenuation := config.get(CONF_ATTENUATION):
         cg.add(var.set_attenuation(attenuation))

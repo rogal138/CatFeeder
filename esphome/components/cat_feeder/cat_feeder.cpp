@@ -59,9 +59,19 @@ void CatFeeder::loop() {
     }
 
     adc_ratio = light_adc_value / dark_adc_value;
+
+    if (status_led_pin) {
+        if (adc_ratio > trigger_ratio){
+          this->status_led_pin->digital_write(true);
+        }else{
+          this->status_led_pin->digital_write(false);
+        }
+    }
+
     this->last_scan_time = now;
-    ESP_LOGD("cat_feeder", "Raw ADC on pin %d", receive_adc_pin);
+    ESP_LOGD("cat_feeder", "Raw ADC on pin %d", this->receive_adc_pin);
     ESP_LOGD("cat_feeder", "Dark value %d, light value %d", dark_adc_value, light_adc_value);
+    ESP_LOGD("cat_feeder", "ADC Ratio: %d",adc_ratio);
   }
 }
 
