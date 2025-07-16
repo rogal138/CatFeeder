@@ -41,6 +41,16 @@ void CatFeeder::loop() {
   int raw = -1;
   if (now - this->last_scan_time > 100) {  // Toggle every 100 milisecond
 
+    if (this->channel1_ != ADC1_CHANNEL_MAX) {
+      raw = adc1_get_raw(this->channel1_);
+    } else if (this->channel2_ != ADC2_CHANNEL_MAX) {
+      adc2_get_raw(this->channel2_, ADC_WIDTH_MAX_SOC_BITS, &raw);
+    }
+
+    dark_adc_value = raw;
+
+    this->transmit_led_pin->digital_write(true);
+    delayMicroseconds(50);
 
     if (this->channel1_ != ADC1_CHANNEL_MAX) {
       raw = adc1_get_raw(this->channel1_);
@@ -48,15 +58,7 @@ void CatFeeder::loop() {
       adc2_get_raw(this->channel2_, ADC_WIDTH_MAX_SOC_BITS, &raw);
     }
 
-    if (last_pin_state == 0){
-        dark_adc_value = raw;
-        this->transmit_led_pin->digital_write(true);
-        last_pin_state = 1;
-    }else{
-        light_adc_value = raw;
-        this->transmit_led_pin->digital_write(false);
-        last_pin_state = 0;        
-    }
+    light_adc_value = raw;
 
     adc_ratio = light_adc_value / dark_adc_value;
 
