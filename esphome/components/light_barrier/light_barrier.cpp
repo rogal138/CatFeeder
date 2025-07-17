@@ -75,13 +75,13 @@ void LightBarrierBinarySensor::loop() {
     adc_ratio = static_cast<double>(light_adc_value) / static_cast<double>(dark_adc_value);
 
     if (adc_ratio > threshold){
-      if (current_state = false){
+      if (current_state == false){
         current_state = true;
         last_change_time=curr_time;
         ESP_LOGD("light barrier", "State switched to ON");
       }
     }else{
-      if (current_state = true){
+      if (current_state == true){
         current_state = false;
         last_change_time=curr_time;
         ESP_LOGD("light barrier", "State switched to OFF");
