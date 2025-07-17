@@ -42,6 +42,8 @@ void LightBarrierBinarySensor::loop() {
   int sample_cnt = 5;
   uint32_t curr_time = millis();
 
+  if(curr_time - last_update > 200){
+    last_update = curr_time;
     light_adc_value = 0;
     dark_adc_value = 0;
 
@@ -86,12 +88,12 @@ void LightBarrierBinarySensor::loop() {
 
     if((curr_time-last_change_time > state_delay) & (current_state != published_state)){
       this->publish_state(current_state);
+      ESP_LOGD("light barrier", "State published");
     }
 
-    ESP_LOGD("light barrier", "Raw ADC on pin %d", this->receive_pin);
     ESP_LOGD("light barrier", "Dark value %d, light value %d", dark_adc_value, light_adc_value);
-    ESP_LOGD("light barrier", "ADC Ratio: %f.2", static_cast<double>(adc_ratio));
   }
+}
 
 void LightBarrierBinarySensor::dump_config(){
   static const char *const ATTEN_0DB_STR = "0 db";
