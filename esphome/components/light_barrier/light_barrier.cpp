@@ -91,7 +91,7 @@ void LightBarrierBinarySensor::loop() {
       }
     }
 
-    if((curr_time-last_change_time > delay_time) && (current_state != published_state)){
+    if(((curr_time-last_change_time) > delay_time) && (current_state != published_state)){
       this->publish_state(current_state);
       published_state = current_state;
     }
