@@ -51,9 +51,9 @@ protected:
   bool current_state{false};
   bool published_state{false};
   uint32_t last_change_time{0};
-  uint32_t state_delay;
+  uint32_t state_delay{200};
   uint32_t last_update{0};
-  
+
   int threshold{0};
 
   adc_atten_t attenuation_{ADC_ATTEN_DB_0};
