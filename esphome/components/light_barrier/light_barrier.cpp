@@ -58,7 +58,7 @@ void LightBarrierBinarySensor::loop() {
     dark_adc_value /= sample_cnt;
 
     this->transmit_pin->digital_write(true);
-    delayMicroseconds(300);
+    delayMicroseconds(100);
 
     for (int i=1; i<sample_cnt; i++){
         if (this->channel1_ != ADC1_CHANNEL_MAX) {
@@ -89,6 +89,7 @@ void LightBarrierBinarySensor::loop() {
     if((curr_time-last_change_time > state_delay) & (current_state != published_state)){
       this->publish_state(current_state);
       ESP_LOGD("light barrier", "State published");
+      published_state = current_state;
     }
 
     ESP_LOGD("light barrier", "Dark value %d, light value %d", dark_adc_value, light_adc_value);
