@@ -41,6 +41,7 @@ void LightBarrierBinarySensor::loop() {
   int raw = -1;
   int sample_cnt = 5;
   uint32_t curr_time = millis();
+  uint32_t delay_time = 0;
 
   if(curr_time - last_update > 200){
     last_update = curr_time;
@@ -77,20 +78,21 @@ void LightBarrierBinarySensor::loop() {
     if (adc_ratio > threshold){
       if (current_state == false){
         current_state = true;
-        last_change_time=curr_time + on_state_delay;
+        last_change_time=curr_time;
+        delay_time = on_state_delay;
         ESP_LOGD("light barrier", "State switched to ON");
       }
     }else{
       if (current_state == true){
         current_state = false;
-        last_change_time=curr_time + off_state_delay;
+        last_change_time=curr_time;
+        delay_time = off_state_delay;
         ESP_LOGD("light barrier", "State switched to OFF");
       }
     }
 
-    if((curr_time-last_change_time > 0) && (current_state != published_state)){
+    if((curr_time-last_change_time > delay_time) && (current_state != published_state)){
       this->publish_state(current_state);
-      ESP_LOGD("light barrier", "State published");
       published_state = current_state;
     }
 
