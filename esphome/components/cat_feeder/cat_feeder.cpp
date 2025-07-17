@@ -43,27 +43,37 @@ void CatFeeder::setup() {
 void CatFeeder::loop() {
   const uint32_t now = millis();
   int raw = -1;
+  int sample_cnt = 5;
   if (now - this->last_scan_time > 100) {  // Toggle every 100 milisecond
 
-    if (this->channel1_ != ADC1_CHANNEL_MAX) {
-      raw = adc1_get_raw(this->channel1_);
-    } else if (this->channel2_ != ADC2_CHANNEL_MAX) {
-      adc2_get_raw(this->channel2_, ADC_WIDTH_MAX_SOC_BITS, &raw);
-    }
+    light_adc_value = 0;
+    dark_adc_value = 0;
 
-    dark_adc_value = raw;
+    for (int i=1; i<sample_cnt; i++){
+        if (this->channel1_ != ADC1_CHANNEL_MAX) {
+          raw = adc1_get_raw(this->channel1_);
+        }else if (this->channel2_ != ADC2_CHANNEL_MAX) {
+          adc2_get_raw(this->channel2_, ADC_WIDTH_MAX_SOC_BITS, &raw);
+        }
+        dark_adc_value += raw;
+    }
+    dark_adc_value /= sample_cnt;
+
     this->transmit_led_pin->digital_write(true);
-    delayMicroseconds(150);
+    delayMicroseconds(300);
 
-    if (this->channel1_ != ADC1_CHANNEL_MAX) {
-      raw = adc1_get_raw(this->channel1_);
-    } else if (this->channel2_ != ADC2_CHANNEL_MAX) {
-      adc2_get_raw(this->channel2_, ADC_WIDTH_MAX_SOC_BITS, &raw);
+    for (int i=1; i<sample_cnt; i++){
+        if (this->channel1_ != ADC1_CHANNEL_MAX) {
+          raw = adc1_get_raw(this->channel1_);
+        }else if (this->channel2_ != ADC2_CHANNEL_MAX) {
+          adc2_get_raw(this->channel2_, ADC_WIDTH_MAX_SOC_BITS, &raw);
+        }
+        light_adc_value += raw;
     }
+    light_adc_value /= sample_cnt;
 
     this->transmit_led_pin->digital_write(false);
-    light_adc_value = raw;
-
+    
     adc_ratio = static_cast<double>(light_adc_value) / static_cast<double>(dark_adc_value);
 
     if (this->status_led_pin) {
