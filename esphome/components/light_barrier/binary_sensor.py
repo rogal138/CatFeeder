@@ -232,11 +232,11 @@ async def to_code(config):
     if threshold := config.get(CONF_THRESHOLD):
         cg.add(var.set_threshold(threshold))
 
-    if delay := config.get(CONF_ON_DELAY):
-        cg.add(var.set_on_delay(delay))
+    if on_delay := config.get(CONF_ON_DELAY):
+        cg.add(var.set_on_delay(on_delay))
 
-    if delay := config.get(CONF_OFF_DELAY):
-        cg.add(var.set_off_delay(delay))
+    if off_delay := config.get(CONF_OFF_DELAY):
+        cg.add(var.set_off_delay(off_delay))
 
     variant = get_esp32_variant()
     pin_num = config[CONF_RECEIVE][CONF_NUMBER]
