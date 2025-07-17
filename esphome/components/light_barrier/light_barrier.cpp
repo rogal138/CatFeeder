@@ -41,7 +41,7 @@ void LightBarrierBinarySensor::loop() {
   int raw = -1;
   int sample_cnt = 5;
   uint32_t curr_time = millis();
-  uint32_t delay_time = 0;
+  
 
   if(curr_time - last_update > 200){
     last_update = curr_time;

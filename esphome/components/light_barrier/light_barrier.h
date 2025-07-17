@@ -55,7 +55,8 @@ protected:
   uint32_t off_state_delay{200};
   uint32_t on_state_delay{200};
   uint32_t last_update{0};
-
+  uint32_t delay_time{0};
+  
   int threshold{0};
 
   adc_atten_t attenuation_{ADC_ATTEN_DB_0};
