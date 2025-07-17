@@ -92,6 +92,7 @@ void LightBarrierBinarySensor::loop() {
     }
 
     if(((curr_time-last_change_time) > delay_time) && (current_state != published_state)){
+      ESP_LOGD("light barrier", "curr time %d, last change %d, delay time %d", curr_time, last_change_time, delay_time);
       this->publish_state(current_state);
       published_state = current_state;
     }
