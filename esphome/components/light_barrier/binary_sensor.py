@@ -25,7 +25,8 @@ DEPENDENCIES = ["binary_sensor"]
 
 CONF_TRANSMIT = "transmit_pin"
 CONF_RECEIVE = "receive_pin"
-CONF_DELAY = "delay"
+CONF_ON_DELAY = "on_delay"
+CONF_OFF_DELAY = "off_delay"
 
 light_barrier_ns = cg.esphome_ns.namespace("light_barrier")
 
@@ -204,7 +205,8 @@ CONFIG_SCHEMA = (
             cv.Required(CONF_TRANSMIT): pins.gpio_output_pin_schema,
             cv.Required(CONF_RECEIVE): validate_adc_pin,
             cv.Optional(CONF_THRESHOLD): cv.int_range(min=1, max=255),
-            cv.Optional(CONF_DELAY): cv.int_range(min=1, max=999999),
+            cv.Optional(CONF_ON_DELAY): cv.int_range(min=1, max=999999),
+            cv.Optional(CONF_OFF_DELAY): cv.int_range(min=1, max=999999),
             cv.SplitDefault(CONF_ATTENUATION, esp32="0db"): cv.All(
                 cv.only_on_esp32, _attenuation
             ),
@@ -230,8 +232,11 @@ async def to_code(config):
     if threshold := config.get(CONF_THRESHOLD):
         cg.add(var.set_threshold(threshold))
 
-    if delay := config.get(CONF_DELAY):
-        cg.add(var.set_delay(delay))
+    if delay := config.get(CONF_ON_DELAY):
+        cg.add(var.set_on_delay(delay))
+
+    if delay := config.get(CONF_OFF_DELAY):
+        cg.add(var.set_off_delay(delay))
 
     variant = get_esp32_variant()
     pin_num = config[CONF_RECEIVE][CONF_NUMBER]

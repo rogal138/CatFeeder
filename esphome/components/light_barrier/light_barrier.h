@@ -30,7 +30,8 @@ public:
   void set_transmit_pin(GPIOPin *pin) { this->transmit_pin = pin;}
   void set_receive_pin(GPIOPin *pin) { this->receive_pin = pin;}
   void set_threshold(int thresh) { this->threshold = thresh;}
-  void set_delay(int delay) { this-> state_delay = delay;}
+  void set_on_delay(int delay) { this-> on_state_delay = delay;}
+  void set_off_delay(int delay) { this-> off_state_delay = delay;}
   void set_attenuation(adc_atten_t attenuation) { this->attenuation_ = attenuation; }
   void set_channel1(adc1_channel_t channel) {
     this->channel1_ = channel;
@@ -51,7 +52,8 @@ protected:
   bool current_state{false};
   bool published_state{false};
   uint32_t last_change_time{0};
-  uint32_t state_delay{200};
+  uint32_t off_state_delay{200};
+  uint32_t on_state_delay{200};
   uint32_t last_update{0};
 
   int threshold{0};
