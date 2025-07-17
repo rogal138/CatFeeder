@@ -78,15 +78,17 @@ void LightBarrierBinarySensor::loop() {
       if (current_state = false){
         current_state = true;
         last_change_time=curr_time;
+        ESP_LOGD("light barrier", "State switched to ON");
       }
     }else{
       if (current_state = true){
         current_state = false;
         last_change_time=curr_time;
+        ESP_LOGD("light barrier", "State switched to OFF");
       }
     }
 
-    if((curr_time-last_change_time > state_delay) && (current_state != published_state)){
+    if(((curr_time-last_change_time) > state_delay) && (current_state != published_state)){
       this->publish_state(current_state);
       ESP_LOGD("light barrier", "State published");
       published_state = current_state;
