@@ -73,7 +73,7 @@ void LightBarrierBinarySensor::loop() {
 
     this->transmit_pin->digital_write(false);
     
-    adc_ratio = static_cast<double>(light_adc_value) / static_cast<double>(dark_adc_value);
+    adc_ratio = static_cast<double>(light_adc_value) - static_cast<double>(dark_adc_value);
 
     if (adc_ratio > threshold){
       if (current_state == false){
