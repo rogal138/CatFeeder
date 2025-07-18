@@ -39,7 +39,7 @@ void LightBarrierBinarySensor::setup() {
 void LightBarrierBinarySensor::loop() {
 
   int raw = -1;
-  int sample_cnt = 5;
+  int sample_cnt = 2;
   uint32_t curr_time = millis();
   
 
@@ -59,7 +59,7 @@ void LightBarrierBinarySensor::loop() {
     dark_adc_value /= sample_cnt;
 
     this->transmit_pin->digital_write(true);
-    delayMicroseconds(100);
+    delayMicroseconds(50);
 
     for (int i=1; i<sample_cnt; i++){
         if (this->channel1_ != ADC1_CHANNEL_MAX) {

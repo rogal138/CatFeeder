@@ -204,7 +204,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(): cv.declare_id(LightBarrierBinarySensor),
             cv.Required(CONF_TRANSMIT): pins.gpio_output_pin_schema,
             cv.Required(CONF_RECEIVE): validate_adc_pin,
-            cv.Optional(CONF_THRESHOLD): cv.int_range(min=1, max=255),
+            cv.Optional(CONF_THRESHOLD): cv.int_range(min=1, max=3000),
             cv.Optional(CONF_ON_DELAY): cv.int_range(min=0, max=999999),
             cv.Optional(CONF_OFF_DELAY): cv.int_range(min=0, max=999999),
             cv.SplitDefault(CONF_ATTENUATION, esp32="0db"): cv.All(
